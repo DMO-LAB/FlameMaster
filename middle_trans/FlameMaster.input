@@ -1,0 +1,70 @@
+############
+# Numerics #
+############
+
+InitialGridPoints = 201
+
+DeltaTMax = 1.0e-5
+RelTol = 1.0e-10
+AbsTol = 1.0e-12
+
+TStart = 0.0e-2
+TEnd = 20.0e-3
+
+#######
+# I/O #
+#######
+
+NumberOfOutputs = 2000
+
+OutputPath is output_61
+#StartProfilesFile is CH4_p01_0chi560.878tf0314to1355Tst1792
+#StartProfilesFile is CH4_p01_0chi452.628tf0314to1355Tst1179
+StartProfilesFile is ./CH4_p01_0chi00070tf0320to1350
+#############
+# Chemistry #
+#############
+
+MechanismFile is gri.211.check.pre
+globalReaction is CH4 + 2O2 == CO2 + 2H2O;
+
+fuel is CH4
+oxidizer is O2
+
+#########
+# Flame #
+#########
+
+Flame is Transient Flamelet
+Scalar DissipationRate = 61
+#ComputeWithRadiation is TRUE
+LewisNumberFile is LewisNumberOne
+Pressure = 1.0e5
+TransModel is MonoAtomic
+
+#######################
+# Boundary conditions #
+#######################
+
+Fuel Side {
+	dirichlet {
+		t = 320.0
+                x->CH4 = 0.33
+                x->N2 = 0.52
+                x->O2 = 0.15
+                x->H2O = 0.0029
+                x->H2 = 0.0001
+	}
+}
+			
+Oxidizer Side {
+	dirichlet {
+		t = 1350.0
+                x->o2 = 0.12
+                x->n2 = 0.73
+                x->h2o = 0.15
+                x->CH4 = 0.0003
+                x->H2 = 0.0001
+                x->OH = 0.0002
+	}
+}

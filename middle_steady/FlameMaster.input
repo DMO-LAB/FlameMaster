@@ -1,0 +1,118 @@
+############
+# Numerics #
+############
+
+#### Newton solver ####
+
+#TimeDepFlag = TRUE
+DeltaTStart = 1.0e-4
+
+DampFlag = TRUE
+LambdaMin = 1.0e-2
+
+UseNumericalJac is TRUE
+#UseSecOrdJac is TRUE
+UseModifiedNewton = TRUE
+
+MaxIter = 25
+TolRes = 1.0e-12
+TolDy = 1.0e-8
+
+#### grid ####
+
+DeltaNewGrid = 15
+OneSoluOneGrid is TRUE
+initialgridpoints = 20
+maxgridpoints = 200
+q = -0.25
+R = 60
+
+# Occasionally the iteration does not 
+# converge with maxgridpoints = 139.
+# In these cases larger grid values
+# may increase the stability.
+
+########################
+# Sensitivity Analysis #
+########################
+
+ReactionFluxAnal is TRUE
+
+#######
+# I/O #
+#######
+
+OutputPath is ./OutMethane
+
+WriteRes is TRUE
+#WriteFullRes is TRUE
+WriteEverySolution is TRUE
+
+#StartProfilesFile is ./CH4_p01_0a00100_0tf0300to0300
+StartProfilesFile is ./CH4_p01_0chi757.277tf0320to1350Tst1776
+#StartProfilesFile is ./CH4_p01_0chi00002tf0314to1355
+#StartProfilesFile is CH4_p01_0chi52.5865tf0314to1355Tst1232
+#############
+# Chemistry #
+#############
+
+MechanismFile is gri.211.check.pre
+globalReaction is CH4 + 2O2 == CO2 + 2H2O;
+
+fuel is CH4
+oxidizer is O2
+
+#########
+# Flame #
+#########
+
+#Flame is CounterFlowDiffusion
+#StrainRate = 100
+
+#ArclengthCont = TRUE
+ConstLewisNumber is TRUE
+LewisNumberFile is LewisNumberOne
+TransModel is MonoAtomic
+
+Flame is Counterflow Diffusion in Mixture Fraction Space
+
+
+#Scalar DissipationRate = 700
+#Scalar DissipationRate = 600
+#Scalar DissipationRate = 500
+#Scalar DissipationRate = 400
+#Scalar DissipationRate = 300
+#Scalar DissipationRate = 200
+#Scalar DissipationRate = 100
+#Scalar DissipationRate = 90
+#Scalar DissipationRate = 80
+#Scalar DissipationRate = 70
+Scalar DissipationRate = 65
+
+#ComputeWithRadiation is TRUE
+
+pressure = 1.0e5
+
+
+Fuel Side {
+	dirichlet {
+		t = 320.0
+		x->CH4 = 0.33
+		x->N2 = 0.52
+		x->O2 = 0.15
+		x->H2O = 0.0029
+		x->H2 = 0.0001
+	}
+}
+
+Oxidizer Side {
+	dirichlet {
+		t = 1350.0
+		x->o2 = 0.12
+		x->n2 = 0.73
+		x->h2o = 0.15
+		x->CH4 = 0.0003
+		x->H2 = 0.0001
+		x->OH = 0.0002
+	}
+}
